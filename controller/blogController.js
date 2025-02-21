@@ -5,6 +5,11 @@ const blogs = JSON.parse(
   fs.readFileSync("./starter-data/starter-data.json", "utf-8")
 );
 
+exports.checkBlogId = (req, res, next, val) => {
+  console.log("blog id is", val);
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",

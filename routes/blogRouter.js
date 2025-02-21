@@ -8,6 +8,8 @@ router
   .get(blogController.getAllTours)
   .post(blogController.createTour);
 
+router.param("id", blogController.checkBlogId); //only run if param in this route is id
+
 router
   .route("/:id")
   .get(blogController.getTour)
