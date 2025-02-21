@@ -1,49 +1,47 @@
-{
-  "blogs": [
-    {
-      "id": "1",
-      "title": "The Future of Web Development",
-      "content": "Web development is evolving rapidly with new frameworks and technologies...",
-      "author": "John Doe",
-      "category": "Technology",
-      "tags": ["Web Development", "JavaScript", "React"],
-      "createdAt": "2025-02-21T10:00:00Z"
-    },
-    {
-      "id": "2",
-      "title": "How to Stay Productive as a Developer",
-      "content": "Being productive as a developer requires a good balance of discipline and tools...",
-      "author": "Jane Smith",
-      "category": "Productivity",
-      "tags": ["Time Management", "Tools", "Habits"],
-      "createdAt": "2025-02-20T15:30:00Z"
-    },
-    {
-      "id": "3",
-      "title": "Understanding REST APIs",
-      "content": "REST APIs are a crucial part of modern web applications. In this blog, we'll explore the basics...",
-      "author": "Alice Johnson",
-      "category": "Programming",
-      "tags": ["API", "REST", "Backend"],
-      "createdAt": "2025-02-19T08:45:00Z"
-    },
-    {
-      "id": "4",
-      "title": "Mastering Node.js for Backend Development",
-      "content": "Node.js provides a powerful runtime for building scalable backend applications...",
-      "author": "Mark Wilson",
-      "category": "Backend",
-      "tags": ["Node.js", "Express", "MongoDB"],
-      "createdAt": "2025-02-18T12:10:00Z"
-    },
-    {
-      "id": "5",
-      "title": "Why You Should Learn TypeScript in 2025",
-      "content": "TypeScript has gained popularity for its ability to enhance JavaScript development...",
-      "author": "Sophia Davis",
-      "category": "Programming",
-      "tags": ["TypeScript", "JavaScript", "Frontend"],
-      "createdAt": "2025-02-17T09:00:00Z"
-    }
-  ]
-}
+[
+  {
+    "id": "1",
+    "title": "The Future of Web Development",
+    "content": "Web development is evolving rapidly with new frameworks and technologies...",
+    "author": "John Doe",
+    "category": "Technology",
+    "tags": ["Web Development", "JavaScript", "React"],
+    "createdAt": "2025-02-21T10:00:00Z"
+  },
+  {
+    "id": "2",
+    "title": "How to Stay Productive as a Developer",
+    "content": "Being productive as a developer requires a good balance of discipline and tools...",
+    "author": "Jane Smith",
+    "category": "Productivity",
+    "tags": ["Time Management", "Tools", "Habits"],
+    "createdAt": "2025-02-20T15:30:00Z"
+  },
+  {
+    "id": "3",
+    "title": "Understanding REST APIs",
+    "content": "REST APIs are a crucial part of modern web applications. In this blog, we'll explore the basics...",
+    "author": "Alice Johnson",
+    "category": "Programming",
+    "tags": ["API", "REST", "Backend"],
+    "createdAt": "2025-02-19T08:45:00Z"
+  },
+  {
+    "id": "4",
+    "title": "Mastering Node.js for Backend Development",
+    "content": "Node.js provides a powerful runtime for building scalable backend applications...",
+    "author": "Mark Wilson",
+    "category": "Backend",
+    "tags": ["Node.js", "Express", "MongoDB"],
+    "createdAt": "2025-02-18T12:10:00Z"
+  },
+  {
+    "id": "5",
+    "title": "Why You Should Learn TypeScript in 2025",
+    "content": "TypeScript has gained popularity for its ability to enhance JavaScript development...",
+    "author": "Sophia Davis",
+    "category": "Programming",
+    "tags": ["TypeScript", "JavaScript", "Frontend"],
+    "createdAt": "2025-02-17T09:00:00Z"
+  }
+]
