@@ -7,6 +7,12 @@ const blogs = JSON.parse(
 
 exports.checkBlogId = (req, res, next, val) => {
   console.log("blog id is", val);
+  if (val > blogs[blogs.length - 1].id) {
+    return res.status(404).json({
+      status: "fail",
+      message: "invalid id",
+    });
+  }
   next();
 };
 
