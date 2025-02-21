@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const app = require("./server");
+const app = express();
 const blogRouter = require("./routes/blogRouter");
 
 //!GLOBAL Middlewares
@@ -19,3 +19,5 @@ app.get("/", (req, res) => {
     message: "Welcome to blogify",
   });
 });
+
+module.exports = app;
