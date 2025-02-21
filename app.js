@@ -22,8 +22,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-//!ROUTES
-app.get("/api/blogs", (req, res) => {
+//!handler functions
+
+const getTours = (req, res) => {
   res.status(200).json({
     status: "success",
     result: blogs.length,
@@ -31,9 +32,9 @@ app.get("/api/blogs", (req, res) => {
       blogs,
     },
   });
-});
+};
 
-app.get("/api/blogs/:id", (req, res) => {
+const getTour = (req, res) => {
   const id = req.params.id;
   const blog = blogs.find((blog) => blog.id === id);
   if (!blog) {
@@ -49,9 +50,9 @@ app.get("/api/blogs/:id", (req, res) => {
       blog,
     },
   });
-});
+};
 
-app.post("/api/blogs", (req, res) => {
+const createTour = (req, res) => {
   const newId = blogs[blogs.length - 1].id * 1 + 1 + "";
   const newBlog = { id: newId, ...req.body };
 
@@ -76,16 +77,16 @@ app.post("/api/blogs", (req, res) => {
       });
     }
   );
-});
+};
 
-app.patch("/api/blogs/:id", (req, res) => {
+const updateTour = (req, res) => {
   res.status(404).json({
     status: "fail",
     message: "Route not yet defined",
   });
-});
+};
 
-app.delete("/api/blogs/:id", (req, res) => {
+const deleteTour = (req, res) => {
   const newBlogs = blogs.filter((b) => b.id != req.params.id);
 
   fs.writeFile(
@@ -104,8 +105,16 @@ app.delete("/api/blogs/:id", (req, res) => {
       });
     }
   );
-});
+};
 
+//!ROUTES
+app.get("/api/blogs", getTours);
+app.get("/api/blogs/:id", getTour);
+app.post("/api/blogs", createTour);
+app.patch("/api/blogs/:id", updateTour);
+app.delete("/api/blogs/:id", deleteTour);
+
+//starting server
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
