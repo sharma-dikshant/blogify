@@ -44,6 +44,12 @@ exports.getAllBlogs = async (req, res) => {
       query = query.sort(sortQuery);
     }
 
+    //limiting Fields
+    if (req.query.fields) {
+      const fields = req.query.fields.split(",").join(" ");
+      query = query.select(fields);
+    }
+
     //! PROCESSING THE QUERY
     const blogs = await query;
 
