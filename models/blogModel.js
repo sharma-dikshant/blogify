@@ -24,9 +24,16 @@ const blogSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-const Blog = mongoose.model("blog", blogSchema);
+blogSchema.virtual("readTime").get(function () {
+  const avgReadingTime = 200; //in WPM
+  const words = this.content ? this.content.split(" ").length : 0;
+  return Math.ceil(words / avgReadingTime);
+});
 
+const Blog = mongoose.model("blog", blogSchema);
 module.exports = Blog;
