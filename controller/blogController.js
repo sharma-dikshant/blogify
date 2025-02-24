@@ -1,100 +1,92 @@
-const fs = require("fs");
 const path = require("path");
-
-const blogs = JSON.parse(
-  fs.readFileSync("./starter-data/starter-data.json", "utf-8")
-);
+const Blog = require("./../models/blogModel");
 
 exports.checkBlogId = (req, res, next, val) => {
-  console.log("blog id is", val);
-  if (val > blogs[blogs.length - 1].id) {
-    return res.status(404).json({
-      status: "fail",
-      message: "invalid id",
-    });
-  }
   next();
 };
 
-exports.getAllTours = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    result: blogs.length,
-    data: {
-      blogs,
-    },
-  });
-};
-
-exports.getTour = (req, res) => {
-  const id = req.params.id;
-  const blog = blogs.find((blog) => blog.id === id);
-  if (!blog) {
-    return res.status(404).json({
+exports.getAllTours = async (req, res) => {
+  try {
+    const blogs = await Blog.find();
+    res.status(200).json({
+      status: "success",
+      result: blogs.length,
+      data: {
+        blogs,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json({
       status: "fail",
-      message: "Invalid ID",
+      message: err,
     });
   }
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      blog,
-    },
-  });
 };
 
-exports.createTour = (req, res) => {
-  const newId = blogs[blogs.length - 1].id * 1 + 1 + "";
-  const newBlog = { id: newId, ...req.body };
-
-  blogs.push(newBlog);
-
-  fs.writeFile(
-    "./starter-data/starter-data.json",
-    JSON.stringify(blogs),
-    (err) => {
-      if (err) {
-        return res.status(400).json({
-          status: "failed",
-          message: err,
-        });
-      }
-
-      res.status(201).json({
-        status: "success",
-        data: {
-          blog: newBlog,
-        },
-      });
-    }
-  );
+exports.getTour = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    res.status(200).json({
+      status: "success",
+      data: {
+        blog,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: "fail",
+      message: "err in getting the tour with given id",
+    });
+  }
 };
 
-exports.updateTour = (req, res) => {
-  res.status(404).json({
-    status: "fail",
-    message: "Route not yet defined",
-  });
+exports.createTour = async (req, res) => {
+  try {
+    const newBlog = await Blog.create(req.body);
+    res.status(200).json({
+      status: "success",
+      data: {
+        blog: newBlog,
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error,
+    });
+  }
 };
 
-exports.deleteTour = (req, res) => {
-  const newBlogs = blogs.filter((b) => b.id != req.params.id);
+exports.updateTour = async (req, res) => {
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
+      runValidators: true,
+      new: true,
+    });
 
-  fs.writeFile(
-    "./starter-data/starter-data.json",
-    JSON.stringify(newBlogs),
-    (err) => {
-      if (err) {
-        return res.status(400).json({
-          status: "failed",
-          message: "something happened very wrong!",
-        });
-      }
+    res.status(200).json({
+      status: "success",
+      data: updatedBlog,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
 
-      res.status(204).json({
-        status: "success",
-      });
-    }
-  );
+exports.deleteTour = async (req, res) => {
+  try {
+    await Blog.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
+      status: "success",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error,
+    });
+  }
 };
