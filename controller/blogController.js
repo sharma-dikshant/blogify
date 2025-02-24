@@ -10,6 +10,7 @@ exports.getAllBlogs = async (req, res) => {
     //! INITIAL QUERY
     let query = Blog.find();
 
+    //FILTERING
     if (req.query.author) {
       const authorRegx = new RegExp(`${req.query.author}`, "i");
       query = query.find({ author: authorRegx });
@@ -27,6 +28,20 @@ exports.getAllBlogs = async (req, res) => {
     if (req.query.category) {
       const category = req.query.category.split(",");
       query = query.find({ category: { $in: category } });
+    }
+
+    //SORTING
+    if (req.query.sort) {
+      let sortQuery;
+      if (req.query.sort == "1") {
+        //ascending
+        sortQuery = "createdAt updatedAt";
+      } else if (req.query.sort == "-1") {
+        //descending
+        sortQuery = "-createdAt -updatedAt";
+      }
+
+      query = query.sort(sortQuery);
     }
 
     //! PROCESSING THE QUERY
