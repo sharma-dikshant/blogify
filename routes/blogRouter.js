@@ -8,6 +8,13 @@ router
   .get(blogController.getAllBlogs)
   .post(blogController.createBlog);
 
+//alias route
+router.route(
+  "/latest",
+  blogController.getLatestBlogs,
+  blogController.getAllBlogs
+);
+
 router.param("id", blogController.checkBlogId); //only run if param in this route is id
 
 router

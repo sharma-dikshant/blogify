@@ -5,6 +5,11 @@ exports.checkBlogId = (req, res, next, val) => {
   next();
 };
 
+exports.getLatestBlogs = (req, res, next) => {
+  req.query.sort = "1";
+  next();
+};
+
 exports.getAllBlogs = async (req, res) => {
   try {
     //! INITIAL QUERY
