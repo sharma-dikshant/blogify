@@ -50,6 +50,13 @@ exports.getAllBlogs = async (req, res) => {
       query = query.select(fields);
     }
 
+    //Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 10;
+    const skip = (page - 1) * limit;
+
+    query = query.skip(skip).limit(limit);
+
     //! PROCESSING THE QUERY
     const blogs = await query;
 
