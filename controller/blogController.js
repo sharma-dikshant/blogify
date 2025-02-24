@@ -1,4 +1,4 @@
-const path = require("path");
+const APIFeatures = require("./../utils/apiFeatures");
 const Blog = require("./../models/blogModel");
 
 exports.checkBlogId = (req, res, next, val) => {
@@ -13,57 +13,13 @@ exports.getLatestBlogs = (req, res, next) => {
 exports.getAllBlogs = async (req, res) => {
   try {
     //! INITIAL QUERY
-    let query = Blog.find();
-
-    //FILTERING
-    if (req.query.author) {
-      const authorRegx = new RegExp(`${req.query.author}`, "i");
-      query = query.find({ author: authorRegx });
-    }
-
-    if (req.query.title) {
-      const titleRegx = new RegExp(`${req.query.title}`, "i");
-      query = query.find({ title: titleRegx });
-    }
-
-    if (req.query.tags) {
-      const tags = req.query.tags.split(",");
-      query = query.find({ tags: { $in: tags } });
-    }
-    if (req.query.category) {
-      const category = req.query.category.split(",");
-      query = query.find({ category: { $in: category } });
-    }
-
-    //SORTING
-    if (req.query.sort) {
-      let sortQuery;
-      if (req.query.sort == "1") {
-        //ascending
-        sortQuery = "createdAt updatedAt";
-      } else if (req.query.sort == "-1") {
-        //descending
-        sortQuery = "-createdAt -updatedAt";
-      }
-
-      query = query.sort(sortQuery);
-    }
-
-    //limiting Fields
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      query = query.select(fields);
-    }
-
-    //Pagination
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 10;
-    const skip = (page - 1) * limit;
-
-    query = query.skip(skip).limit(limit);
-
+    const features = new APIFeatures(Blog.find(), req.query)
+      .filter()
+      .limitFields()
+      .paginate()
+      .sort();
     //! PROCESSING THE QUERY
-    const blogs = await query;
+    const blogs = await features.query;
 
     res.status(200).json({
       status: "success",
