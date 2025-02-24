@@ -1,23 +1,26 @@
 const mongoose = require("mongoose");
 
-const blogSchema = mongoose.Schema(
+const blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: [true, "A blog must have title"],
       trim: true,
+      lowercase: true,
     },
     content: {
       type: String,
       required: [true, "A blog must have content"],
       trim: true,
+      lowercase: true,
     },
     author: {
       type: String,
       required: [true, "A blog must have author"],
+      lowercase: true,
     },
-    category: [String],
-    tags: [String],
+    category: { type: [String], lowercase: true },
+    tags: { type: [String], lowercase: true },
   },
   {
     timestamps: true,

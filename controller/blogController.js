@@ -5,9 +5,33 @@ exports.checkBlogId = (req, res, next, val) => {
   next();
 };
 
-exports.getAllTours = async (req, res) => {
+exports.getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    //! INITIAL QUERY
+    let query = Blog.find();
+
+    if (req.query.author) {
+      const authorRegx = new RegExp(`${req.query.author}`, "i");
+      query = query.find({ author: authorRegx });
+    }
+
+    if (req.query.title) {
+      const titleRegx = new RegExp(`${req.query.title}`, "i");
+      query = query.find({ title: titleRegx });
+    }
+
+    if (req.query.tags) {
+      const tags = req.query.tags.split(",");
+      query = query.find({ tags: { $in: tags } });
+    }
+    if (req.query.category) {
+      const category = req.query.category.split(",");
+      query = query.find({ category: { $in: category } });
+    }
+
+    //! PROCESSING THE QUERY
+    const blogs = await query;
+
     res.status(200).json({
       status: "success",
       result: blogs.length,
@@ -23,7 +47,7 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = async (req, res) => {
+exports.getBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
     res.status(200).json({
@@ -35,12 +59,12 @@ exports.getTour = async (req, res) => {
   } catch (err) {
     return res.status(400).json({
       status: "fail",
-      message: "err in getting the tour with given id",
+      message: "err in getting the blog with given id",
     });
   }
 };
 
-exports.createTour = async (req, res) => {
+exports.createBlog = async (req, res) => {
   try {
     const newBlog = await Blog.create(req.body);
     res.status(200).json({
@@ -57,7 +81,7 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.updateTour = async (req, res) => {
+exports.updateBlog = async (req, res) => {
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
       runValidators: true,
@@ -76,7 +100,7 @@ exports.updateTour = async (req, res) => {
   }
 };
 
-exports.deleteTour = async (req, res) => {
+exports.deleteBlog = async (req, res) => {
   try {
     await Blog.findByIdAndDelete(req.params.id);
 

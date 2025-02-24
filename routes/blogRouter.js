@@ -5,15 +5,15 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(blogController.getAllTours)
-  .post(blogController.createTour);
+  .get(blogController.getAllBlogs)
+  .post(blogController.createBlog);
 
 router.param("id", blogController.checkBlogId); //only run if param in this route is id
 
 router
   .route("/:id")
-  .get(blogController.getTour)
-  .delete(blogController.deleteTour)
-  .patch(blogController.updateTour);
+  .get(blogController.getBlog)
+  .delete(blogController.deleteBlog)
+  .patch(blogController.updateBlog);
 
 module.exports = router;
