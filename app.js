@@ -1,6 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 
+const AppError = require("./utils/appError");
+const errorController = require("./controller/errorController");
+
 const app = express();
 const blogRouter = require("./routes/blogRouter");
 
@@ -19,5 +22,13 @@ app.get("/", (req, res) => {
     message: "Welcome to blogify",
   });
 });
+
+app.all("*", (req, res, next) => {
+  next(
+    new AppError(404, `route ${req.url} is not available on this server!`)
+  );
+});
+
+app.use(errorController.globalErrorHandler);
 
 module.exports = app;
